@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- <script type="module">
+// import { add } from "./build/release.js";
+// document.body.innerText = add(1, 2);
+</script> -->
+</head>
+<body>
+  <div id="main"></div>
+  <script src=/js/loader.js></script>
+  <script src="https://cdn.jsdelivr.net/npm/@assemblyscript/loader/umd/index.js"></script>
+  <script>
+    const WL = new WasmLoader();
+    WL.wasm('/build/optimized.wasm')
+      .then(instance => {
+        const { readMemory, memory } = instance;
+
+        const memoryArray = new Uint8Array(memory.buffer);
+        document.write(memoryArray[1])
+        document.write('<br/>');
+        memoryArray[2] = 42
+        document.write(readMemory(2))
+      });
+  </script>
+</body>
+</html>
